@@ -8,7 +8,7 @@ int decodeFile(const char *fileWillDecoded, const char *outputFile);
 
 int main(int argc, char **argv) {
     if (argc < 3){
-        fprintf(stderr, "Usage: %s [-d] <file> <output>!", argv[0]);
+        fprintf(stderr, "Usage: %s [-d] <file> <output>", argv[0]);
         return 1;
     }
 
