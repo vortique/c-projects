@@ -41,13 +41,16 @@ Args *parser(StringArray *args) {
             char **tmp = flags.data = realloc(flags.data, (flags.len + 1) * sizeof(char *));
             if (!tmp)
                 return NULL;
-            flags.data =
+            flags.data = tmp;
             flags.data[flags.len] = *data;
             flags.len++;
             continue;
         }
 
-        arguments.data = realloc(arguments.data, (arguments.len + 1) * sizeof(char *));
+        char **tmp = realloc(arguments.data, (arguments.len + 1) * sizeof(char *));
+        if (!tmp)
+            return NULL;
+        arguments.data = tmp;
         arguments.data[arguments.len] = *data;
         arguments.len++;
     }
