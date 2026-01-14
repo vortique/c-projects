@@ -9,7 +9,7 @@ int main(void) {
     my_memcpy(b, a, sizeof b);
 
     int *p = &b[0];
-    int *end = p + 5;
+    int *end = p + (sizeof b / sizeof b[0]);
 
     for (; p < end; p++) {
         printf("%d\n", *p);
