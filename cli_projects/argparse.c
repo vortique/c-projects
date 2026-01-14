@@ -1,21 +1,14 @@
+#include "argparse.h"
 #include <stdlib.h>
 #include <stdbool.h>
 #include <stddef.h>
-
-typedef struct {
-    char **data;
-    size_t len;
-} StringArray;
-
-typedef struct {
-    StringArray flags;
-    StringArray arguments;
-} Args;
 
 Args *parser(StringArray *argv);
 bool str_startswith(const char *str, const char *expr);
 bool str_comp(const char *s1, const char *s2);
 int str_length(const char *s);
+char *str_includes(const char *str, const char *expr);
+int string_array_includes(StringArray *str_arr, const char *val);
 
 // EXAMPLE USAGE
 // int main(int argc, char **argv) {
@@ -61,6 +54,21 @@ Args *parser(StringArray *args) {
     parsed_args->arguments = arguments;
 
     return parsed_args;
+}
+
+int string_array_includes(StringArray *str_arr, const char *val) {
+    for (size_t i = 0; i < str_arr->len; i++) {
+        if (str_comp(str_arr->data[i], val)) {
+            return i;
+        }
+    }
+
+    return -1;
+}
+
+char *str_includes(const char *str, const char *expr) {
+    // NOT IMPLEMENTED
+    return NULL;
 }
 
 bool str_startswith(const char *str, const char *expr) {
