@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdint.h>
 
+#define _CRT_SECURE_NO_WARNINGS
+
 void readFile(const char *path);
 
 int main(int argc, char **argv) {

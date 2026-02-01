@@ -1,7 +1,8 @@
 #include "argparse.h"
 #include <stdlib.h>
-#include <stdbool.h>
 #include <stddef.h>
+
+#define _CRT_SECURE_NO_WARNINGS
 
 Args *parser(StringArray *argv);
 bool str_startswith(const char *str, const char *expr);
@@ -15,23 +16,36 @@ int string_array_includes(StringArray *str_arr, const char *val);
 //     StringArray argv_string_array = { .data=argv, .len=argc };
 
 //     Args *parsed_args = parser(&argv_string_array);
-//
+//     
+//     free(parsed_args->arguments.data);
+//     free(parsed_args->flags.data);
 //     free(parsed_args);
 // }
 
-Args *parser(StringArray *args) {
+Args *parser(StringArray *args)
+{
     char **data = args->data;
     char **data_end = args->data + args->len;
 
+    if (args->len <= 1)
+    {
+        Args *empty = malloc(sizeof(Args));
+        empty->flags = (StringArray){0};
+        empty->arguments = (StringArray){0};
+        return empty;
+    }
+
     data++; // skip the file name
 
-    StringArray flags = { .data=NULL, .len=0 };
-    StringArray arguments = { .data=NULL, .len=0 };
+    StringArray flags = {.data = NULL, .len = 0};
+    StringArray arguments = {.data = NULL, .len = 0};
 
-    for (; data < data_end; data++) {
-        if (str_startswith(*data, "-")) {
+    for (; data < data_end; data++)
+    {
+        if (str_startswith(*data, "-"))
+        {
             // if the flags.data is NULL realloc behaves as malloc, no need to use malloc seperately :P
-            char **tmp = flags.data = realloc(flags.data, (flags.len + 1) * sizeof(char *));
+            char **tmp = realloc(flags.data, (flags.len + 1) * sizeof(char *));
             if (!tmp)
                 return NULL;
             flags.data = tmp;
@@ -56,9 +70,12 @@ Args *parser(StringArray *args) {
     return parsed_args;
 }
 
-int string_array_includes(StringArray *str_arr, const char *val) {
-    for (size_t i = 0; i < str_arr->len; i++) {
-        if (str_comp(str_arr->data[i], val)) {
+int string_array_includes(StringArray *str_arr, const char *val)
+{
+    for (size_t i = 0; i < str_arr->len; i++)
+    {
+        if (str_comp(str_arr->data[i], val))
+        {
             return i;
         }
     }
@@ -66,17 +83,21 @@ int string_array_includes(StringArray *str_arr, const char *val) {
     return -1;
 }
 
-char *str_includes(const char *str, const char *expr) {
+char *str_includes(const char *str, const char *expr)
+{
     // NOT IMPLEMENTED
     return NULL;
 }
 
-bool str_startswith(const char *str, const char *expr) {
+bool str_startswith(const char *str, const char *expr)
+{
     if (expr == NULL || str_comp(str, "") || (str_length(str) < str_length(expr)))
         return false;
 
-    while (*expr != '\0') {
-        if (*str != *expr) {
+    while (*expr != '\0')
+    {
+        if (*str != *expr)
+        {
             return false;
         }
         str++;
@@ -86,9 +107,17 @@ bool str_startswith(const char *str, const char *expr) {
     return true;
 }
 
-bool str_comp(const char *s1, const char *s2) {
-    while (*s1 != '\0' && *s2 != '\0') {
-        if (*s1 != *s2) {
+bool str_comp(const char *s1, const char *s2)
+{
+    if (s1 == NULL || s2 == NULL)
+    {
+        return s1 == s2;
+    }
+
+    while (*s1 != '\0' && *s2 != '\0')
+    {
+        if (*s1 != *s2)
+        {
             return false;
         }
         s1++;
@@ -98,7 +127,8 @@ bool str_comp(const char *s1, const char *s2) {
     return (*s1 == *s2);
 }
 
-int str_length(const char *s) {
+int str_length(const char *s)
+{
     const char *p = s;
     while (*p != '\0')
         p++;

@@ -1,8 +1,8 @@
 #ifndef ARGPARSE_H
 #define ARGPARSE_H
 
-#include <stdio.h>
 #include <stdbool.h>
+#include <stdlib.h>
 
 typedef struct {
     char **data;
